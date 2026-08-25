@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TariffLab — DRG tariff &amp; case-mix scenario modelling</title>
+<meta name="description" content="Model revenue impact of base-rate changes, case-mix drift and casemix-system switches across US MS-DRG, UK HRG, German G-DRG, Australian AR-DRG and UAE IR-DRG — using official published tariffs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700;8..60,900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo"><span class="logo-mark">∑</span> Tariff<span>Lab</span></div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#lab" class="btn btn-primary btn-sm">Open the lab</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="kicker">Casemix scenario engine · Official published tariffs</div>
+    <h1>What happens to revenue when<br><span class="grad">the tariff or the mix moves?</span></h1>
+    <p class="sub">Answer in seconds what used to take a day in Excel: the revenue impact of a base-rate uplift, severity drift, or switching between casemix systems — built directly on verified US, UK, German, Australian and UAE published tariffs and weights.</p>
+    <div class="hero-actions">
+      <a href="#lab" class="btn btn-primary btn-lg">Model a scenario →</a>
+      <a href="#pricing" class="btn btn-ghost btn-lg">See pricing</a>
+    </div>
+  </div>
+</section>
+
+
+<section id="lab" class="lab-section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Live model</div>
+      <h2>Scenario calculator</h2>
+      <p>Pick a procedure family and system, set baseline vs scenario volumes and rates, and see the impact instantly.</p>
+    </div>
+
+    <div class="controls card">
+      <div class="control-row">
+        <label>Procedure family
+          <select id="procSelect"></select>
+        </label>
+        <label>Casemix system
+          <select id="sysSelect">
+            <option value="us">🇺🇸 US MS-DRG (CMS FY2026)</option>
+            <option value="uk">🇬🇧 UK NHS HRG (2025/26)</option>
+            <option value="de">🇩🇪 German G-DRG (InEK 2025)</option>
+            <option value="au">🇦🇺 Australian AR-DRG (NEP 2025–26)</option>
+            <option value="ae">🇦🇪 UAE IR-DRG (DoH Abu Dhabi)</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div id="inputsWrap"></div>
+
+    <div class="results-head">
+      <h3>Impact summary</h3>
+      <div class="results-actions">
+        <button id="addPortBtn" class="btn btn-ghost-dark">＋ Add to portfolio</button>
+        <button id="exportBtn" class="btn btn-ghost-dark">⬇ Export as CSV</button>
+        <button id="shareBtn" class="btn btn-primary">🔗 Share this scenario</button>
+      </div>
+    </div>
+    <div id="summary" class="summary-grid"></div>
+
+    <div class="table-wrap">
+      <table id="tierTable">
+        <thead><tr>
+          <th>Tier</th><th>Code</th><th>Unit rate</th>
+          <th>Cases · baseline</th><th>Revenue · baseline</th>
+          <th>Cases · scenario</th><th>Revenue · scenario</th><th>Δ revenue</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="chart-wrap card"><canvas id="chart" height="120"></canvas></div>
+
+    <div id="portfolioSection" class="hidden">
+      <div class="results-head">
+        <h3>Portfolio rollup</h3>
+        <div class="results-actions">
+          <button id="portCSVBtn" class="btn btn-ghost-dark">⬇ Export portfolio CSV</button>
+          <button id="portClearBtn" class="btn btn-ghost-dark">Clear</button>
+        </div>
+      </div>
+      <div id="portSummary" class="summary-grid"></div>
+      <div class="table-wrap">
+        <table id="portTable">
+          <thead><tr><th>Family</th><th>System</th>
+            <th>Revenue · baseline</th><th>Revenue · scenario</th><th>Δ revenue</th><th>Δ %</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="fineprint">Portfolio entries are converted to USD at indicative rates (£0.79, €0.92, A$0.65, AED 0.27). Adjust these in app.js if you need different FX.</p>
+    </div>
+
+    <p class="fineprint" id="sourceNote"></p>
+  </div>
+</section>
+
+<section id="how" class="features">
+  <div class="container">
+    <div class="section-head center">
+      <div class="kicker">Methodology</div>
+      <h2>Built for pricing &amp; costing teams</h2>
+      <p>The three questions you get asked every budget round.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Base-rate uplifts</h3>
+        <p>Negotiated rate moving 3%? Tariff indexation lagging inflation? Set two base rates and see the full-year impact immediately.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔀</div>
+        <h3>Case-mix drift</h3>
+        <p>Coding improvements or acuity shift moving cases across complexity tiers? Model volume shifts per tier and see CMI and revenue move together.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>System comparisons</h3>
+        <p>The same procedure family priced under US, UK, German, Australian and UAE casemix weights, side by side.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="container">
+    <div class="section-head center">
+      <div class="kicker">Pricing</div>
+      <h2>Licences for teams</h2>
+      <p>Founding-customer pricing while we're in beta.</p>
+    </div>
+    <div class="price-card">
+      <div class="price-badge">Founding customer</div>
+      <div class="price">$290 <span class="price-was">$590</span></div>
+      <div class="price-note">per team · 12 months</div>
+      <ul>
+        <li>✓ Unlimited scenarios &amp; CSV exports</li>
+        <li>✓ All procedure families · 5 casemix systems</li>
+        <li>✓ Annual tariff refreshes included</li>
+        <li>✓ Custom families &amp; your own volumes on request</li>
+      </ul>
+      <a href="#" class="btn btn-primary btn-block">Request a licence</a>
+      <p class="fineprint">Reference modelling tool — not a certified grouper. Verify against local pricing analysis.</p>
+    </div>
+  </div>
+</section>
+
+<div id="toast"></div>
+
+<footer>
+  <div class="container">
+    <p><strong>TariffLab</strong> · © 2026</p>
+    <p class="fineprint">Tariffs and weights compiled from CMS FY2026 IPPS Final Rule, NHS Payment Scheme 2025/26 Annex A, InEK Fallpauschalen-Katalog 2025, IHACPA NEP 2025–26 and DoH Abu Dhabi IR-DRG weight publications.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
