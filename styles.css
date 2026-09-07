@@ -77,3 +77,28 @@ td.code-cell{font-family:ui-monospace,monospace;color:var(--acc);font-size:12px}
 .price-card li{padding:6px 0;border-bottom:1px dashed var(--line)}
 .fineprint{color:var(--mut);font-size:11.5px;margin-top:16px}
 footer{border-top:1px solid var(--line);padding:28px 0;margin-top:40px;color:var(--mut);font-size:13px}
+
+/* ---- upgrade modal ---- */
+.hidden{display:none!important}
+.modal-overlay{position:fixed;inset:0;background:rgba(4,8,13,.78);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-overlay.hidden{display:none!important}
+.modal{background:var(--card);border:1px solid #26445c;border-radius:16px;padding:28px;max-width:440px;width:100%;position:relative;max-height:92vh;overflow-y:auto}
+.modal h3{font-family:"Source Serif 4",serif;font-size:22px;margin-bottom:6px}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--mut);font-size:16px;cursor:pointer}
+.modal-price{font-size:34px;font-weight:800;margin:8px 0 14px}
+.modal-note{font-size:13px;color:var(--mut);font-weight:500}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.license-input{width:100%!important;max-width:none!important;text-align:left!important;letter-spacing:.08em;font-family:ui-monospace,monospace;text-transform:uppercase;margin-top:6px;padding:10px 12px;background:#0d131b;border:1px solid var(--line);border-radius:8px;color:var(--txt);font-size:14px}
+#licenseBtn{margin-top:10px}
+
+/* ---- partner section ---- */
+.partner-tool{margin-top:28px}
+.partner-row{display:flex;gap:12px;margin-bottom:8px}
+.partner-row input{flex:1;max-width:280px;padding:10px 12px;background:#0d131b;border:1px solid var(--line);border-radius:8px;color:var(--txt);font-family:inherit;font-size:14px}
+.partner-link-box{background:#0d131b;border:1px solid #26445c;border-radius:10px;padding:14px;margin:14px 0}
+.partner-link-box .lbl,.post-box .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:6px}
+.link-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.link-line code{color:var(--acc);font-size:13px;word-break:break-all}
+.post-box{background:#0d131b;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.post-pre{white-space:pre-wrap;font-family:inherit;font-size:13.5px;color:var(--txt);margin-bottom:10px}

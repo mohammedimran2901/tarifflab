@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TariffLab — DRG tariff &amp; case-mix scenario modelling</title>
 <meta name="description" content="Model revenue impact of base-rate changes, case-mix drift and casemix-system switches across US MS-DRG, UK HRG, German G-DRG, Australian AR-DRG and UAE IR-DRG — using official published tariffs.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TariffLab — DRG tariff & case-mix scenario modelling">
+<meta property="og:description" content="Answer in seconds what used to take a day in Excel: the revenue impact of a base-rate uplift, severity drift, or casemix-system switch — on official published tariffs from 5 countries.">
+<meta property="og:url" content="https://tarifflab.app/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700;8..60,900&display=swap" rel="stylesheet">
@@ -19,7 +24,9 @@
     <nav>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
-      <a href="#lab" class="btn btn-primary btn-sm">Open the lab</a>
+      <a href="#partners">Partners · 30%</a>
+      <button id="upgradeBtn" class="btn btn-primary btn-sm">Get licence</button>
+      <a href="#lab" class="btn btn-ghost btn-sm">Open the lab</a>
     </nav>
   </div>
 </header>
@@ -154,13 +161,80 @@
         <li>✓ Annual tariff refreshes included</li>
         <li>✓ Custom families &amp; your own volumes on request</li>
       </ul>
-      <a href="#" class="btn btn-primary btn-block">Request a licence</a>
+      <button id="pricingCTA" class="btn btn-primary btn-block">Get your licence — $290 →</button>
       <p class="fineprint">Reference modelling tool — not a certified grouper. Verify against local pricing analysis.</p>
     </div>
   </div>
 </section>
 
 <div id="toast"></div>
+
+<!-- ============================================================ -->
+<!-- License / upgrade modal                                       -->
+<!-- ============================================================ -->
+<div id="payModal" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" id="payClose" aria-label="Close">✕</button>
+    <div class="kicker">Unlock TariffLab Pro</div>
+    <h3>Unlimited exports, all five systems</h3>
+    <p class="sub" style="margin-bottom:18px">You've used your 2 free CSV exports. A Pro licence unlocks unlimited scenario and portfolio exports for your whole team for 12 months.</p>
+    <div class="modal-price">$290 <span class="price-was">$590</span> <span class="modal-note">/ team / year</span></div>
+    <a id="stripeLink" class="btn btn-primary btn-block" href="#" target="_blank" rel="noopener">Buy licence via Stripe →</a>
+    <p class="fineprint" style="text-align:center">Instant · Secure checkout by Stripe · Receipt = your licence</p>
+    <div class="divider"><span>Already paid?</span></div>
+    <label style="font-size:13px;color:var(--mut)">Enter your licence key
+      <input type="text" id="licenseInput" placeholder="TL-XXXX-XXXX-XXXX" class="license-input" autocomplete="off">
+    </label>
+    <button id="licenseBtn" class="btn btn-ghost btn-block">Activate licence</button>
+    <p id="licenseMsg" class="fineprint" style="text-align:center"></p>
+  </div>
+</div>
+
+<section id="partners" class="features">
+  <div class="container">
+    <div class="section-head center">
+      <div class="kicker">Growth partners</div>
+      <h2>Earn 30% on every licence you refer</h2>
+      <p>TariffLab is sold through people who already talk to hospital finance, coding and casemix teams on LinkedIn. One well-placed post can pay for itself many times over.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>1 · Get your link</h3>
+        <p>Generate a personal referral link below and post it on LinkedIn, in your newsletter, or in DMs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>2 · Someone buys</h3>
+        <p>When a buyer lands through your link and purchases a $290 licence, your code travels with them through checkout.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💸</div>
+        <h3>3 · You get paid</h3>
+        <p>Every sale attributed to your code is tracked on the Stripe dashboard. <strong>$87 per licence</strong> (30%), settled monthly by bank transfer or Stripe Connect.</p>
+      </div>
+    </div>
+
+    <div class="card partner-tool">
+      <div class="section-head" style="margin-bottom:14px">
+        <h3 style="font-family:'Source Serif 4',serif;font-size:22px">Generate your partner link</h3>
+        <p style="color:var(--mut)">Pick a short code (letters/numbers, e.g. <code>amira-cc</code>). We'll build your link and three ready-to-post LinkedIn updates.</p>
+      </div>
+      <div class="partner-row">
+        <input type="text" id="partnerCode" placeholder="your-code" maxlength="24" autocomplete="off">
+        <button id="partnerGenBtn" class="btn btn-primary">Generate link + posts</button>
+      </div>
+      <div id="partnerOutput" class="hidden">
+        <div class="partner-link-box">
+          <div class="lbl">Your referral link — copy this into your posts</div>
+          <div class="link-line"><code id="partnerLink"></code><button id="partnerCopyBtn" class="btn btn-ghost-dark btn-sm">Copy</button></div>
+        </div>
+        <div id="partnerPosts"></div>
+      </div>
+      <p class="fineprint">To register for monthly payouts, email <a id="partnerMail" href="mailto:hello@example.com?subject=TariffLab%20growth%20partner">hello@example.com</a> with your chosen code after your first referral.</p>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="container">
@@ -170,6 +244,7 @@
 </footer>
 
 <script src="data.js"></script>
+<script src="monetize.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
